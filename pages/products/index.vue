@@ -35,7 +35,6 @@ const weaponStore = useWeaponStore()
 // ✅ Charger les données au montage du composant
 onMounted(() => {
     weaponStore.fetchWeaponSkins();
-    weaponStore.fetchVandalSkins();
 })
 </script>
 

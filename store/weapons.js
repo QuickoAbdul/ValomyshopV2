@@ -62,8 +62,7 @@ export const useWeaponStore = defineStore('weaponStore', () => {
     productsPerPage,
     fetchWeaponSkins,
     displayedWeaponSkins,
-      totalPages,
-      fetchVandalSkins,
+    totalPages,
     getFullRender
   }
 })

@@ -29,4 +29,5 @@
         required: true,
       }
     }
-  }
+}
+</script>

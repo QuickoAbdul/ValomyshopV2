@@ -5,9 +5,10 @@
         v-for="skin in weaponStore.displayedWeaponSkins"
         :key="skin.uuid"
         :title="skin.displayName"
-        :image="weaponStore.getFullRender(skin)"
-        :contentTier="weaponStore.contentTiers[skin.contentTierUuid] || 'N/A'"
-      />
+        :imagesweapon="weaponStore.getFullRender(skin)"
+        :contentTier="weaponStore.contentTiers[skin.contentTierUuid]?.displayName || 'N/A'"
+        :contentTierLogo="weaponStore.contentTiers[skin.contentTierUuid]?.displayIcon || 'N/A'"
+        />
     </div>
 
     <!-- Pagination -->
@@ -36,6 +37,8 @@ const weaponStore = useWeaponStore()
 onMounted(() => {
     weaponStore.fetchWeaponSkins();
 })
+
+console.log(weaponStore)
 </script>
 
 <style scoped>

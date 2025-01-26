@@ -6,9 +6,9 @@
       <li class="px-4 py-1 text-sm font-semibold bg-white/30 rounded-xl w-fit text-black">Arme</li>
       <li class="px-4 py-1 text-sm font-semibold bg-white/30 rounded-xl w-fit text-black">{{ contentTier }}</li>
     </ul>
-    <img src="../assets/img/vlrtlogo.png" alt="Pokeball icon"
+    <img :src="contentTierLogo" alt="Pokeball icon"
       class="absolute transition-all duration-300 ease w-44 h-44 -right-3 -bottom-8 group-hover:rotate-45">
-    <img class="absolute w-auto h-40 bottom-1 right-1 group-hover:scale-110 transition-all" :src="image"
+    <img class="absolute w-auto h-40 bottom-1 right-1 group-hover:scale-110 transition-all" :src="imagesweapon"
       alt="Picture of bulbasaur">
   </a>
 </template> 
@@ -20,11 +20,15 @@
         type: String,
         required: true,
       },
-      image: {
+      imagesweapon: {
         type: String,
         required: true,
       },
       contentTier: {
+        type: String,
+        required: true,
+      },
+      contentTierLogo: {
         type: String,
         required: true,
       }

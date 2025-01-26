@@ -26,20 +26,27 @@ export const useWeaponStore = defineStore('weaponStore', () => {
 
   // ✅ Récupération des content tiers avec `fetch`
   const fetchContentTiers = async () => {
-    try {
-      const response = await fetch('https://valorant-api.com/v1/contenttiers')
-      if (!response.ok) throw new Error('Erreur lors du chargement des content tiers')
+  try {
+    const response = await fetch('https://valorant-api.com/v1/contenttiers')
+    if (!response.ok) throw new Error('Erreur lors du chargement des content tiers')
 
-      const data = await response.json()
-      data.data.forEach(tier => {
-        contentTiers.value[tier.uuid] = tier.displayName 
-      })
-    } catch (error) {
-      console.error('Erreur lors de la récupération des content tiers :', error)
-    }
-  }
+    const data = await response.json()
     
-    // ✅ Extraire l'image du skin
+    // Transformer en objet indexé par UUID
+    contentTiers.value = data.data.reduce((acc, tier) => {
+      acc[tier.uuid] = {
+        displayName: tier.displayName,
+        displayIcon: tier.displayIcon
+      }
+      return acc
+    }, {})
+
+  } catch (error) {
+    console.error('Erreur lors de la récupération des content tiers :', error)
+  }
+}
+    
+  // ✅ Extraire l'image du skin
   const getFullRender = (skin) => {
     return skin.chromas?.length ? skin.chromas[0].fullRender : null
   }
@@ -52,8 +59,6 @@ export const useWeaponStore = defineStore('weaponStore', () => {
 
   // ✅ Nombre total de pages
   const totalPages = computed(() => Math.ceil(weaponSkins.value.length / productsPerPage))
-
- 
 
   return {
     weaponSkins,

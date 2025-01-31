@@ -4,6 +4,7 @@
       <Produit
         v-for="skin in weaponStore.displayedWeaponSkins"
         :key="skin.uuid"
+        :themename="weaponStore.themes[skin.themeUuid]?.displayName || 'N/A'"
         :title="skin.displayName"
         :imagesweapon="weaponStore.getFullRender(skin)"
         :contentTier="weaponStore.contentTiers[skin.contentTierUuid]?.displayName || 'N/A'"
@@ -38,7 +39,7 @@ onMounted(() => {
     weaponStore.fetchWeaponSkins();
 })
 
-console.log(weaponStore)
+console.log("weaponstore : " , weaponStore)
 </script>
 
 <style scoped>

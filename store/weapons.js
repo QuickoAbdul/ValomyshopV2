@@ -4,6 +4,7 @@ import { ref, computed } from 'vue'
 export const useWeaponStore = defineStore('weaponStore', () => {
   const weaponSkins = ref([])
   const contentTiers = ref({})
+  const themes = ref({})
   const vandalSkins = ref([])
   const currentPage = ref(1)
   const productsPerPage = 24
@@ -18,6 +19,7 @@ export const useWeaponStore = defineStore('weaponStore', () => {
       weaponSkins.value = data.data
 
       // ✅ Charger les content tiers après les skins
+      await fetchThemes()
       await fetchContentTiers()
     } catch (error) {
       console.error('Erreur lors de la récupération des skins :', error)
@@ -44,6 +46,28 @@ export const useWeaponStore = defineStore('weaponStore', () => {
   } catch (error) {
     console.error('Erreur lors de la récupération des content tiers :', error)
   }
+  }
+  
+  // ✅ Récupération des themes avec `fetch`
+  const fetchThemes = async () => {
+  try {
+    const response = await fetch('https://valorant-api.com/v1/themes')
+    if (!response.ok) throw new Error('Erreur lors du chargement des content tiers')
+
+    const data = await response.json()
+    
+    // Transformer en objet indexé par UUID
+    themes.value = data.data.reduce((acc, theme) => {
+      acc[theme.uuid] = {
+        displayName: theme.displayName,
+        displayIcon: theme.displayIcon
+      }
+      return acc
+    }, {})
+
+  } catch (error) {
+    console.error('Erreur lors de la récupération des content tiers :', error)
+  }
 }
     
   // ✅ Extraire l'image du skin
@@ -63,6 +87,7 @@ export const useWeaponStore = defineStore('weaponStore', () => {
   return {
     weaponSkins,
     contentTiers,
+    themes,
     currentPage,
     productsPerPage,
     fetchWeaponSkins,

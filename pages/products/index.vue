@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Weaponsort></Weaponsort>
     <div class="flex flex-wrap justify-center gap-8 bg-white">
       <Produit
         v-for="skin in weaponStore.displayedWeaponSkins"
@@ -30,6 +31,7 @@
 import { onMounted } from 'vue'
 import { useWeaponStore } from '@/store/weapons.js'
 import Produit from '~/components/weaponcard.vue'
+import WeaponSort from '~/components/weaponsort.vue'
 
 // ✅ Initialiser le store
 const weaponStore = useWeaponStore()

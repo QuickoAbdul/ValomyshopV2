@@ -7,13 +7,15 @@
       >
         {{ weapon.name }}
       </div>
+
       <div
         v-if="dropdownIndex === index"
         class="absolute top-full left-0 mt-2 bg-gray-700 text-white rounded-lg shadow-lg w-40 z-50"
       >
         <ul>
-          <li v-for="(item, i) in weapon.options" :key="i" class="px-4 py-2 hover:bg-gray-600 cursor-pointer">
-            {{ item }}
+          <li v-for="(option, i) in weapon.options" :key="i" class="px-4 py-2 hover:bg-gray-600 cursor-pointer">
+            {{ option }}
+            <img v-if="weapon.images[i]" :src="weapon.images[i]" alt="Weapon Image" class=" w-full h-10" />
           </li>
         </ul>
       </div>
@@ -22,37 +24,51 @@
 </template>
 
 <script>
+import { useWeaponStore } from '@/store/weapons.js';
+
 export default {
   data() {
     return {
       weapons: [
-        { name: "Rifle", options: ["Vandal", "Phantom", "Guardian", "Bulldog" ] },
-        { name: "Heavy", options: ["Ares", "Odin"] },
-        { name: "ShotGun", options: ["Bucky", "Judge"] },
-        { name: "SideArm", options: ["Classic", "Shorty", "Frenzy", "Ghost", "Sheriff"] },
-        { name: "Sniper", options: ["Marshal", "Operator"] },
-        { name: "SMG", options: ["Stinger", "Spectre"] },
-        { name: "Melee", options: ["Knife"] },
+        { name: "Rifle", options: ["Vandal", "Phantom", "Guardian", "Bulldog"], images: [] },
+        { name: "Heavy", options: ["Ares", "Odin"], images: [] },
+        { name: "ShotGun", options: ["Bucky", "Judge"], images: [] },
+        { name: "SideArm", options: ["Classic", "Shorty", "Frenzy", "Ghost", "Sheriff"], images: [] },
+        { name: "Sniper", options: ["Marshal", "Operator"], images: [] },
+        { name: "SMG", options: ["Stinger", "Spectre"], images: [] },
+        { name: "Melee", options: ["Melee"], images: [] },
       ],
       dropdownIndex: null,
     };
+  },
+  async created() {
+    const weaponStore = useWeaponStore();
+    await weaponStore.fetchWeaponsGeneral(); // Récupère les armes depuis l'API
+    this.assignWeaponImages(); // Associe les images aux options
   },
   methods: {
     toggleDropdown(index) {
       this.dropdownIndex = this.dropdownIndex === index ? null : index;
     },
+
+    // Associe les images à chaque option d'arme
+    assignWeaponImages() {
+      const weaponStore = useWeaponStore();
+      
+      this.weapons.forEach(weapon => {
+        // Initialise un tableau vide pour stocker les images de chaque option
+        weapon.images = [];
+
+        weapon.options.forEach(option => {
+          const matchedWeapon = weaponStore.weaponsGeneral.find(w => w.displayName === option);
+          if (matchedWeapon) {
+            weapon.images.push(matchedWeapon.killStreamIcon || null); 
+          } else {
+            weapon.images.push(null); // Si pas d'image trouvée, ajoute `null` pour garder l'indexation correcte
+          }
+        });
+      });
+    }
   },
 };
 </script>
-
-<style>
-/* Custom Scrollbar for better UI */
-::-webkit-scrollbar {
-  height: 6px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #555;
-  border-radius: 6px;
-}
-</style>

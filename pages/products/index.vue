@@ -38,10 +38,11 @@ const weaponStore = useWeaponStore()
 
 // ✅ Charger les données au montage du composant
 onMounted(() => {
+    weaponStore.fetchWeaponsGeneral()
     weaponStore.fetchWeaponSkins();
 })
 
-console.log("weaponstore : " , weaponStore)
+console.log("weaponstore 1: " , weaponStore)
 </script>
 
 <style scoped>

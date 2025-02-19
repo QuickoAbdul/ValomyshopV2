@@ -8,8 +8,23 @@ export const useWeaponStore = defineStore('weaponStore', () => {
   const vandalSkins = ref([])
   const currentPage = ref(1)
   const productsPerPage = 24
+  const weaponsGeneral = ref([])
 
-  // ✅ Récupération des skins d'armes avec `fetch`
+  // ✅ Récupération des armes en general `fetch`
+  const fetchWeaponsGeneral = async () => {
+    try {
+      const response = await fetch('https://valorant-api.com/v1/weapons')
+      if (!response.ok) throw new Error('Erreur lors du chargement des armes')
+
+      const data = await response.json()
+      weaponsGeneral.value = data.data
+
+    } catch (error) {
+      console.error('Erreur lors de la récupération des armes :', error)
+    }
+  }
+
+  // ✅ Récupération SEULEMENT des skins d'armes 
   const fetchWeaponSkins = async () => {
     try {
       const response = await fetch('https://valorant-api.com/v1/weapons/skins')
@@ -24,52 +39,52 @@ export const useWeaponStore = defineStore('weaponStore', () => {
     } catch (error) {
       console.error('Erreur lors de la récupération des skins :', error)
     }
-    }
+  }
 
   // ✅ Récupération des content tiers avec `fetch`
   const fetchContentTiers = async () => {
-  try {
-    const response = await fetch('https://valorant-api.com/v1/contenttiers')
-    if (!response.ok) throw new Error('Erreur lors du chargement des content tiers')
+    try {
+      const response = await fetch('https://valorant-api.com/v1/contenttiers')
+      if (!response.ok) throw new Error('Erreur lors du chargement des content tiers')
 
-    const data = await response.json()
-    
-    // Transformer en objet indexé par UUID
-    contentTiers.value = data.data.reduce((acc, tier) => {
-      acc[tier.uuid] = {
-        displayName: tier.displayName,
-        displayIcon: tier.displayIcon
-      }
-      return acc
-    }, {})
+      const data = await response.json()
 
-  } catch (error) {
-    console.error('Erreur lors de la récupération des content tiers :', error)
+      // Transformer en objet indexé par UUID
+      contentTiers.value = data.data.reduce((acc, tier) => {
+        acc[tier.uuid] = {
+          displayName: tier.displayName,
+          displayIcon: tier.displayIcon
+        }
+        return acc
+      }, {})
+
+    } catch (error) {
+      console.error('Erreur lors de la récupération des content tiers :', error)
+    }
   }
-  }
-  
+
   // ✅ Récupération des themes avec `fetch`
   const fetchThemes = async () => {
-  try {
-    const response = await fetch('https://valorant-api.com/v1/themes')
-    if (!response.ok) throw new Error('Erreur lors du chargement des content tiers')
+    try {
+      const response = await fetch('https://valorant-api.com/v1/themes')
+      if (!response.ok) throw new Error('Erreur lors du chargement des content tiers')
 
-    const data = await response.json()
-    
-    // Transformer en objet indexé par UUID
-    themes.value = data.data.reduce((acc, theme) => {
-      acc[theme.uuid] = {
-        displayName: theme.displayName,
-        displayIcon: theme.displayIcon
-      }
-      return acc
-    }, {})
+      const data = await response.json()
 
-  } catch (error) {
-    console.error('Erreur lors de la récupération des content tiers :', error)
+      // Transformer en objet indexé par UUID
+      themes.value = data.data.reduce((acc, theme) => {
+        acc[theme.uuid] = {
+          displayName: theme.displayName,
+          displayIcon: theme.displayIcon
+        }
+        return acc
+      }, {})
+
+    } catch (error) {
+      console.error('Erreur lors de la récupération des content tiers :', error)
+    }
   }
-}
-    
+
   // ✅ Extraire l'image du skin
   const getFullRender = (skin) => {
     return skin.chromas?.length ? skin.chromas[0].fullRender : null
@@ -90,6 +105,8 @@ export const useWeaponStore = defineStore('weaponStore', () => {
     themes,
     currentPage,
     productsPerPage,
+    fetchWeaponsGeneral,
+    weaponsGeneral,
     fetchWeaponSkins,
     displayedWeaponSkins,
     totalPages,

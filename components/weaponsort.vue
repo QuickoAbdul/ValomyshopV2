@@ -16,9 +16,13 @@
         v-if="dropdownIndex === index"
         class="absolute top-full left-0 mt-2 bg-gray-700 text-white rounded-lg shadow-lg w-40 z-50">
         <ul>
-          <li v-for="(option, i) in weapon.options" :key="i" class="px-4 py-2 rounded-lg hover:bg-gray-600 cursor-pointer">
+          <li 
+            v-for="(option, i) in weapon.options" 
+            :key="i" 
+            class="px-4 py-2 rounded-lg hover:bg-gray-600 cursor-pointer"
+            @click="selectWeapon(weapon.name, option)">
             {{ option }}
-            <img v-if="weapon.images[i]" :src="weapon.images[i]" alt="Weapon Image" class=" w-full h-10" />
+            <img v-if="weapon.images[i]" :src="weapon.images[i]" alt="Weapon Image" class="w-full h-10" />
           </li>
         </ul>
       </div>
@@ -47,12 +51,18 @@ export default {
   },
   async created() {
     const weaponStore = useWeaponStore();
-    await weaponStore.fetchWeaponsGeneral(); // Récupère les armes depuis l'API
-    this.assignWeaponImages(); // Associe les images aux options
+    await weaponStore.fetchWeaponsGeneral();
+    this.assignWeaponImages();
   },
   methods: {
     toggleDropdown(index) {
       this.dropdownIndex = this.dropdownIndex === index ? null : index;
+    },
+
+    selectWeapon(type, weapon) {
+      const weaponStore = useWeaponStore();
+      weaponStore.setWeaponFilter(type, weapon);
+      this.dropdownIndex = null; // Ferme le dropdown après la sélection
     },
 
     // Associe les images à chaque option d'arme
@@ -60,15 +70,13 @@ export default {
       const weaponStore = useWeaponStore();
       
       this.weapons.forEach(weapon => {
-        // Initialise un tableau vide pour stocker les images de chaque option
         weapon.images = [];
-
         weapon.options.forEach(option => {
           const matchedWeapon = weaponStore.weaponsGeneral.find(w => w.displayName === option);
           if (matchedWeapon) {
-            weapon.images.push(matchedWeapon.killStreamIcon || null); 
+            weapon.images.push(matchedWeapon.killStreamIcon || null);
           } else {
-            weapon.images.push(null); // Si pas d'image trouvée, ajoute `null` pour garder l'indexation correcte
+            weapon.images.push(null);
           }
         });
       });

@@ -10,19 +10,26 @@
         :imagesweapon="weaponStore.getFullRender(skin)"
         :contentTier="weaponStore.contentTiers[skin.contentTierUuid]?.displayName || 'N/A'"
         :contentTierLogo="weaponStore.contentTiers[skin.contentTierUuid]?.displayIcon || 'N/A'"
-        />
+      />
     </div>
 
     <!-- Pagination -->
-    <div class="pagination">
-      <button
-        v-for="pageNumber in weaponStore.totalPages"
-        :key="pageNumber"
-        @click="weaponStore.currentPage = pageNumber"
-        :class="{ 'active': pageNumber === weaponStore.currentPage }"
-      >
-        {{ pageNumber }}
-      </button>
+    <div class="flex justify-center mt-8 mb-8">
+      <div class="pagination flex flex-wrap gap-2 px-18">
+        <button
+          v-for="pageNumber in weaponStore.totalPages"
+          :key="pageNumber"
+          @click="weaponStore.currentPage = pageNumber"
+          :class="[
+            'px-4 py-2 rounded-lg transition-colors duration-200',
+            pageNumber === weaponStore.currentPage
+              ? 'bg-gray-800 text-white'
+              : 'bg-gray-200 hover:bg-gray-300'
+          ]"
+        >
+          {{ pageNumber }}
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -37,9 +44,10 @@ import WeaponSort from '~/components/weaponsort.vue'
 const weaponStore = useWeaponStore()
 
 // ✅ Charger les données au montage du composant
-onMounted(() => {
-    weaponStore.fetchWeaponsGeneral()
-    weaponStore.fetchWeaponSkins();
+onMounted(async () => {
+  await weaponStore.fetchWeaponsGeneral()
+  await weaponStore.fetchThemes()
+  await weaponStore.fetchContentTiers()
 })
 
 console.log("weaponstore 1: " , weaponStore)
@@ -47,19 +55,6 @@ console.log("weaponstore 1: " , weaponStore)
 
 <style scoped>
 .pagination button {
-  margin: 5px;
-  padding: 8px 12px;
-  border: none;
-  background-color: #ddd;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.pagination button:hover {
-  background-color: #bbb;
-}
-.pagination button.active {
-  background-color: #007bff;
-  color: white;
-  font-weight: bold;
+  text-align: center;
 }
 </style>

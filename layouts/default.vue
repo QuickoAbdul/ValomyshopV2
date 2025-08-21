@@ -3,20 +3,20 @@
         <div class="flex flex-wrap">
             <section class="relative mx-auto">
                 <!-- navbar -->
-                <nav class="flex justify-between bg-gray-900 text-white w-screen">
+                <nav class="flex justify-between bg-gray-800 dark:bg-gray-900 text-white w-screen">
                 <div class="px-5 xl:px-12 py-6 flex w-full items-center">
                     <a class="text-3xl font-bold font-heading" href="/">
                     <img class="h-[30px] max-w-[200px] md:h-[35px] xl:h-[35px] filter invert brightness-200" src="/assets/img/logo/Valomyshop2.svg" alt="logo">
                     </a>
                     <!-- Nav Links -->
                     <ul class="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
-                    <li><nuxt-link to="/">Home</nuxt-link></li>
-                    <li><nuxt-link to="/products">Shop</nuxt-link></li>
-                    <li><nuxt-link to="/">Contact</nuxt-link></li>
-                    <li>
+                    <li class="px-2 xl:px-4 xl:py-2 rounded-lg hover:bg-green-900 transition-all duration-400" active-class="bg-green-900 px-2 xl:px-4 xl:py-2 rounded-lg text-white hover:text-white"><nuxt-link to="/">Home</nuxt-link></li>
+                    <li class="px-2 xl:px-4 xl:py-2 rounded-lg hover:bg-green-900 transition-all duration-400" active-class="bg-green-900 px-2 xl:px-4 xl:py-2 rounded-lg text-white hover:text-white"><nuxt-link to="/products">Shop</nuxt-link></li>
+                    <li class="px-2 xl:px-4 xl:py-2 rounded-lg hover:bg-green-900 transition-all duration-400" active-class="bg-green-900 px-2 xl:px-4 xl:py-2 rounded-lg text-white hover:text-white"><nuxt-link to ="/contacts">Contact</nuxt-link></li>
+                    <li class="px-2 xl:px-4 xl:py-2 rounded-lg hover:bg-green-900 transition-all duration-400">
                         <div class="dropdown inline-block relative">
-                            <button class="bg-gray-900 font-semibold rounded inline-flex">
-                            <span class="mr-1">Categories</span>
+                            <button class="font-semibold rounded inline-flex">
+                            <span active-class="bg-green-900 mr-1">Categories</span>
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg>
                             </button>
                             <ul class="dropdown-menu absolute hidden pt-1">
@@ -84,5 +84,7 @@
 .dropdown:hover .dropdown-menu {
   display: block;
 }
+
+
 
 </style>

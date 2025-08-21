@@ -5,9 +5,8 @@
                 <!-- navbar -->
                 <nav class="flex justify-between bg-gray-900 text-white w-screen">
                 <div class="px-5 xl:px-12 py-6 flex w-full items-center">
-                    <a class="text-3xl font-bold font-heading" href="#">
-                    <!-- <img class="h-9" src="logo.png" alt="logo"> -->
-                    Logo Here.
+                    <a class="text-3xl font-bold font-heading" href="/">
+                    <img class="h-[30px] max-w-[200px] md:h-[35px] xl:h-[35px] filter invert brightness-200" src="/assets/img/logo/Valomyshop2.svg" alt="logo">
                     </a>
                     <!-- Nav Links -->
                     <ul class="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
